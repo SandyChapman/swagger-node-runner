@@ -32,7 +32,9 @@ module.exports = function create(fittingDef) {
         console.error(err.stack);
       }
       delete(context.error);
-      next(null, JSON.stringify(err));
+      var result = JSON.stringify(err)
+      context.response.set('Content-Length', result.length)
+      next(null, result);
     } catch (err2) {
       debug('jsonErrorHandler unable to stringify error: %j', err);
       next();
